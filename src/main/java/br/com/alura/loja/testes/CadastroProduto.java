@@ -16,12 +16,30 @@ public class CadastroProduto {
         Produto celular = new Produto("Iphone","caro",new BigDecimal("4000"), categoriaCelular);
 
 
+
+
+
         EntityManager entityManager = new JPAUtil().getEntityManager();
         ProdutoDAO produtoDAO = new ProdutoDAO(entityManager);
         CategoriaDAO categoriaDAO = new CategoriaDAO(entityManager);
-
         categoriaDAO.cadastrar(categoriaCelular);
         produtoDAO.cadastrar(celular);
+        entityManager.getTransaction().begin();
+
+
+
+        entityManager.flush();
+        entityManager.clear();
+
+        categoriaCelular = entityManager.merge(categoriaCelular);
+        categoriaCelular.setNome("XPTO");
+        entityManager.flush();
+
+        celular = entityManager.merge(celular);
+        entityManager.remove(celular);
+        categoriaDAO.remover(categoriaCelular);
+        entityManager.flush();
+
 
 
     }

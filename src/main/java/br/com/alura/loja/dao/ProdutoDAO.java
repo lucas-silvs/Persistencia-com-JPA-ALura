@@ -12,9 +12,9 @@ public class ProdutoDAO {
     }
 
     public void cadastrar(Produto produto){
-        entityManager.getTransaction().begin();
+
         this.entityManager.persist(produto);
-        entityManager.getTransaction().commit();
-        entityManager.close();
+        produto.setNome("testes");
+
     }
 }
